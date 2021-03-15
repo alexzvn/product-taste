@@ -12,7 +12,7 @@ const success = (message: string) => {
 window.addEventListener('crawl:teechip', () => {
   const data = new TeeChip().make();
 
-  console.log(data);
+  console.log(JSON.stringify(data, null, 2));
 
   success(`Đã quét được ${data.length} loại sản phẩm`)
 })

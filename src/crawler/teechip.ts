@@ -114,11 +114,54 @@ export default class TeeChip {
     return productInfo
   }
 
-  make () {
+  merge () {
     const products = Object.values(this.mergeInfo());
 
     return products.map((product: any) => {
       return { ...product, designs: Object.values(product.designs) }
     })
+  }
+
+  commonName (products: Array<any>) {
+    let commonDesign: any = {};
+
+    products.forEach((product: any) => {
+      product.designs.forEach((design: any) => {
+        if (design.names && design.names.design ) {
+          if (commonDesign[design.names.design]) {
+            commonDesign[design.names.design] += 1
+          } else {
+            commonDesign[design.names.design] = 1
+          }
+        }
+      });
+    });
+
+    const sortable = Object.entries(commonDesign)
+      .sort(([, a],[,b]) => (b as any) - (a as any))
+
+    return sortable[0][0]
+  }
+
+  make () {
+    let products: Array<any> = this.merge()
+
+    const design: string = this.commonName(products)
+
+    products = products.map(product => {
+      product.designs = product.designs.reduce((carry: Array<any>, item: any) => {
+        if (!item.names || !item.names.design || item.names.design !== design) {
+          return carry
+        }
+
+        carry.push(item)
+
+        return carry
+      }, [])
+
+      return product
+    })
+
+    return products
   }
 }
