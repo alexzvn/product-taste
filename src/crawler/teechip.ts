@@ -49,6 +49,16 @@ const exampleItem = [{
 
 export default class TeeChip {
 
+  async fetchVias() {
+    const finder = /window.__INITIAL_STATE__ = (.*);/m
+
+    const body = await (await fetch(window.location.href)).text()
+
+    const [, initial] = finder.exec(body)
+
+    return JSON.parse(initial).vias
+  }
+
   getDesign (colors: Array<any>) {
 
     return colors.reduce((carry: any, item: any) => {
@@ -64,7 +74,7 @@ export default class TeeChip {
     }, {})
   }
 
-  makeRawInfo () {
+  makeRawInfo (vias: any) {
     let product: any = {}
 
     for (const [code, data] of Object.entries(vias.Product.docs.code)) {
@@ -87,8 +97,8 @@ export default class TeeChip {
     return product
   }
 
-  mergeInfo () {
-    const productInfo: any = this.makeRawInfo()
+  mergeInfo (vias: any) {
+    const productInfo: any = this.makeRawInfo(vias)
 
     for (const [code, data] of Object.entries(vias.RetailProduct.docs.code)) {
       const doc     = (data as any).doc
@@ -114,8 +124,8 @@ export default class TeeChip {
     return productInfo
   }
 
-  merge () {
-    const products = Object.values(this.mergeInfo());
+  merge (vias: any) {
+    const products = Object.values(this.mergeInfo(vias));
 
     return products.map((product: any) => {
       return { ...product, designs: Object.values(product.designs) }
@@ -143,8 +153,10 @@ export default class TeeChip {
     return sortable[0][0]
   }
 
-  make () {
-    let products: Array<any> = this.merge()
+  async make () {
+    const vias = await this.fetchVias()
+
+    let products: Array<any> = this.merge(vias)
 
     const design: string = this.commonName(products)
 

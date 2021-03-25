@@ -9,8 +9,8 @@ const success = (message: string) => {
   })
 }
 
-window.addEventListener('crawl:teechip', () => {
-  const data = new TeeChip().make();
+window.addEventListener('crawl:teechip', async() => {
+  const data = await new TeeChip().make();
 
   console.log(JSON.stringify(data, null, 2));
 
