@@ -1,7 +1,7 @@
 {
   "name": "Product Taste",
   "description": "A web extension",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "manifest_version": 2,
 
   "permissions": ["cookies", "webRequest", "tabs", "<all_urls>"],
