@@ -1,51 +1,8 @@
-/**
- * Contain all current products data
- */
-const vias = (window as any).__INITIAL_STATE__.vias
-
 const shortCode = (code: string) => {
   const [, short] = /.*?-.*?-.*?-(.*?)-.*$/g.exec(code)
 
   return short
 }
-
-const exampleItem = [{
-  _id: "587d0d90f43ea40e13382dc2",
-  code: "TC1000",
-  name: "Phone Case",
-  type: "case",
-  basePrice: 1560,
-
-  category: 'case',
-
-  tags: {
-    size: ['case'],
-    product: ['case'],
-    department: ['accessories']
-  },
-
-  designs: [
-    {
-      slug: 'abc-xyz-abc',
-      color: 'White',
-      hex: 'FFFFFF',
-      price: 1235,
-      mockup: "url://image",
-      names: {
-        product: "Classic T-Shirt",
-        design: "I asked god to make me a Better Men he sent me kid"
-      },
-      sizes: [
-        { name: "sml", outOfStock: false },
-        { name: "med", outOfStock: false },
-        { name: "lrg", outOfStock: false },
-        { name: "xlg", outOfStock: false },
-        { name: "xxl", outOfStock: false }
-      ],
-      images: [{ name: 'abc 123', id: 'abc-123', url: 'url://image.jpg' }]
-    }
-  ],
-}]
 
 export default class TeeChip {
 
