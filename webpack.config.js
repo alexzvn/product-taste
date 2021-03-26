@@ -2,6 +2,8 @@ const ejs = require('ejs')
 const path = require('path')
 const CopyPlugin = require("copy-webpack-plugin")
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const zipPlugin = require('zip-webpack-plugin')
+const manifest  = require('./src/manifest.json')
 
 const transformHtml = content => ejs.render(content.toString(), {...process.env})
 
@@ -55,5 +57,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),
+    new zipPlugin({
+      filename: `product_taste-v${manifest.version}.zip`
+    })
   ]
 }
